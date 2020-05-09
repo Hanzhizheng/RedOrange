@@ -6,7 +6,6 @@ from . import models
 class PartyAAdmin(admin.ModelAdmin):
     list_display = (
         'name',
-        'boss',
     )
     search_fields = (
         'name',
@@ -15,6 +14,7 @@ class PartyAAdmin(admin.ModelAdmin):
 
 class PhotoAlbumAdmin(admin.ModelAdmin):
     list_display = (
+        'id',
         'img',
         'party_a',
     )

@@ -1,7 +1,13 @@
-from rest_framework import viewsets
+from rest_framework import (
+    viewsets,
+    exceptions,
+)
 
-from . import models
-from . import serializers
+from . import (
+    models,
+    serializers,
+    permissions,
+)
 
 
 class PartyAViewSet(viewsets.ModelViewSet):
@@ -14,9 +20,11 @@ class PhotoAlbumViewSet(viewsets.ModelViewSet):
     queryset = models.PhotoAlbum.objects.all()
     serializer_class = serializers.PhotoAlbumSerializer
     filterset_fields = ('party_a',)
+    permission_classes = [permissions.PhotoAlbumPermission]
 
 
 class CampaignViewSet(viewsets.ModelViewSet):
     queryset = models.Campaign.objects.all()
     serializer_class = serializers.CampaignSerializer
     filterset_fields = ('party_a',)
+    permission_classes = [permissions.CampaignPermission]

@@ -1,5 +1,4 @@
 from django.db import models
-from user.models import User
 
 
 def upload_to(instance, filename):
@@ -42,19 +41,6 @@ class PartyA(models.Model):
         '经营者/法人身份证件',
         upload_to='IDCards/',
         help_text='经营者/法人身份证件',
-    )
-    boss = models.ForeignKey(
-        User,
-        verbose_name='老板',
-        on_delete=models.PROTECT,
-        related_name='boss_partya',
-        help_text='老板',
-    )
-    workers = models.ManyToManyField(
-        User,
-        verbose_name='员工',
-        related_name='workers_partya',
-        help_text='员工',
     )
 
     def __str__(self):

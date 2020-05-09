@@ -5,6 +5,8 @@ from . import models
 
 class UserAdmin(admin.ModelAdmin):
     list_display = (
+        'name',
+        'nickname',
         'username',
         'phone',
     )
@@ -14,4 +16,15 @@ class UserAdmin(admin.ModelAdmin):
     )
 
 
+class JobCardAdmin(admin.ModelAdmin):
+    list_display = (
+        'user',
+        'position',
+        'party_a',
+        'is_admin',
+        'is_verified',
+    )
+
+
 admin.site.register(models.User, UserAdmin)
+admin.site.register(models.JobCard, JobCardAdmin)
