@@ -22,3 +22,16 @@ class AreaViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = serializers.AreaSerializer
     search_fields = ('name',)
     filterset_fields = ('city',)
+
+
+class JobCategoryViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.JobCategory.objects.all()
+    serializer_class = serializers.JobCategorySerializer
+    search_fields = ('name',)
+
+
+class JobSubCategoryViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.JobSubCategory.objects.all()
+    serializer_class = serializers.JobSubCategorySerializer
+    search_fields = ('name',)
+    filterset_fields = ('category',)

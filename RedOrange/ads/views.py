@@ -22,9 +22,21 @@ class PhotoAlbumViewSet(viewsets.ModelViewSet):
     filterset_fields = ('party_a',)
     permission_classes = [permissions.PhotoAlbumPermission]
 
+    def get_serializer_class(self):
+        action = self.action
+        if action == 'partial_update':
+            return serializers.PhotoAlbumUpdateSerializer
+        return self.serializer_class
+
 
 class CampaignViewSet(viewsets.ModelViewSet):
     queryset = models.Campaign.objects.all()
     serializer_class = serializers.CampaignSerializer
     filterset_fields = ('party_a',)
     permission_classes = [permissions.CampaignPermission]
+
+    def get_serializer_class(self):
+        action = self.action
+        if action == 'partial_update':
+            return serializers.CampaignUpdateSerializer
+        return self.serializer_class

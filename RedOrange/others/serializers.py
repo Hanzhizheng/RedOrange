@@ -22,3 +22,17 @@ class AreaSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Area
         fields = '__all__'
+
+
+class JobCategorySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.JobSubCategory
+        fields = '__all__'
+
+
+class JobSubCategorySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.JobSubCategory
+        fields = '__all__'

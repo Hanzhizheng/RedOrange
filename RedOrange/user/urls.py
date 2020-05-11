@@ -1,10 +1,9 @@
 from django.urls import path
-from rest_framework import routers
+from common import routers
 
 from . import views
 
-
-router = routers.SimpleRouter()
+router = routers.PUTNotAllowedRouter()
 router.register('user', views.UserViewSet)
 router.register('job_card', views.JobCardViewSet)
 

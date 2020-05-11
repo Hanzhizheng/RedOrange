@@ -45,4 +45,5 @@ urlpatterns = [
     path(r'other/', include('others.urls')),
     path(r'user/', include('user.urls')),
     path(r'ads/', include('ads.urls')),
+    path(r'work/', include('work.urls')),
 ]

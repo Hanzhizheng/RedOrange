@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from . import models
+from common.serializers import ReadOnlyPartyAMeta
 
 
 class PartyASerializer(serializers.ModelSerializer):
@@ -22,3 +23,15 @@ class CampaignSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Campaign
         fields = '__all__'
+
+
+class PhotoAlbumUpdateSerializer(serializers.ModelSerializer):
+
+    class Meta(ReadOnlyPartyAMeta):
+        model = models.PhotoAlbum
+
+
+class CampaignUpdateSerializer(serializers.ModelSerializer):
+
+    class Meta(ReadOnlyPartyAMeta):
+        model = models.Campaign

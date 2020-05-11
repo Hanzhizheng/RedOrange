@@ -9,7 +9,7 @@ class CodeNameMixin(models.Model):
     )
     name = models.CharField(
         '名称',
-        max_length=15,
+        max_length=25,
         help_text='名称',
     )
     
@@ -57,3 +57,48 @@ class Area(CodeNameMixin):
     class Meta:
         verbose_name = '区县'
         verbose_name_plural = verbose_name
+
+
+class JobCategory(CodeNameMixin):
+    """岗位一级分类
+    """
+
+    class Meta:
+        verbose_name = '岗位一级分类'
+        verbose_name_plural = verbose_name
+
+
+class JobSubCategory(CodeNameMixin):
+    """岗位二级分类
+    """
+    category = models.ForeignKey(
+        JobCategory,
+        verbose_name='岗位一级分类',
+        on_delete=models.CASCADE,
+        help_text='岗位一级分类',
+    )
+
+    class Meta:
+        verbose_name = '岗位二级分类'
+        verbose_name_plural = verbose_name
+
+
+class FKeyJobCateroryMixin(models.Model):
+    category = models.ForeignKey(
+        JobCategory,
+        verbose_name='岗位一级分类',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        help_text='岗位一级分类',
+    )
+    sub_category = models.ForeignKey(
+        JobSubCategory,
+        verbose_name='岗位二级分类',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        help_text='岗位二级分类',
+    )
+    class Meta:
+        abstract = True

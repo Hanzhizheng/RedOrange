@@ -1,3 +1,4 @@
+from django.db.transaction import atomic
 from rest_framework import (
     viewsets,
     mixins,
@@ -21,6 +22,44 @@ from . import (
 class UserViewSet(viewsets.ModelViewSet):
     queryset = models.User.objects.all()
     serializer_class = serializers.UserSerializer
+
+    def get_serializer_class(self):
+        action = self.action
+        if action == 'give_juice':
+            return serializers.GiveJuiceSerializer
+        return self.serializer_class
+
+    @swagger_auto_schema(
+        request_body=no_body,
+        responses={'200': '橙汁+1'},
+    )
+    @action(methods=['post'], detail=False)
+    def check_in(self, request, *args, **kwargs):
+        user = self.request.user
+        if user.checked_in:
+            return Response('您今天已经打卡')
+        else:
+            user.juices += 1
+            user.checked_in = True
+            user.save()
+        return Response('橙汁+1')
+
+    @swagger_auto_schema(
+        responses={'200': '赠送成功'},
+    )
+    @action(methods=['post'], detail=True)
+    def give_juice(self, request, pk, *args, **kwargs):
+        s = self.get_serializer(data=request.data)
+        s.is_valid(raise_exception=True)
+        num = s.validated_data.get('num')
+        instance = self.get_object()
+        user = self.request.user
+        with atomic():
+            instance.juices += num
+            instance.save()
+            user.juices -= num
+            user.save()
+        return Response('赠送成功')
 
 
 class JobCardViewSet(

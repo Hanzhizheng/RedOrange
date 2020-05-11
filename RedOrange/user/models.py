@@ -37,6 +37,32 @@ class User(AbstractUser):
         blank=True,
         help_text='积分数',
     )
+    checked_in = models.BooleanField(
+        '是否打卡',
+        default=False,
+        blank=True,
+        help_text='是否打卡',
+    )
+    brithday = models.DateField(
+        '出生日期',
+        null=True,
+        help_text='出生日期',
+    )
+    SEX = (
+        (1, '男'),
+        (0, '女'),
+        (2, '未知')
+    )
+    sex = models.IntegerField(
+        '标识符申请状态',
+        choices=SEX,
+        default=2,
+        help_text='标识符申请状态',
+    )
+
+    @property
+    def age(self):
+        return 
 
     def __str__(self):
         return self.name

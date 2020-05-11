@@ -1,8 +1,17 @@
 from django.db import models
+from django.utils.decorators import classproperty
+
 from ads.models import FKeyPartyAMixin
+from user.models import FKeyUserMixin
+from others.models import FKeyJobCateroryMixin
 
 
-class AbstractJob(FKeyPartyAMixin):
+class AbstractJob(FKeyJobCateroryMixin):
+    publish_time = models.DateField(
+        '发布时间',
+        auto_now=True,
+        help_text='发布时间',
+    )
     position = models.CharField(
         '岗位',
         max_length=10,
@@ -35,19 +44,40 @@ class AbstractJob(FKeyPartyAMixin):
         abstract = True
 
 
-class FullTimeJob(AbstractJob):
-    """全职工作
+class FullTimeJob(FKeyPartyAMixin, AbstractJob):
+    """企业全职工作
     """
 
+    @classproperty
+    def fkey(self):
+        return 'party_a'
+
     class Meta:
-        verbose_name = '全职工作'
+        verbose_name = '企业全职工作'
         verbose_name_plural = verbose_name
 
 
-class ShortTimeJob(AbstractJob):
-    """短期工作
+class PartTimeJob(FKeyPartyAMixin, AbstractJob):
+    """企业兼职工作
     """
 
+    @classproperty
+    def fkey(self):
+        return 'party_a'
+
     class Meta:
-        verbose_name = '短期工作'
+        verbose_name = '企业兼职工作'
+        verbose_name_plural = verbose_name
+
+
+class PersonalJob(FKeyUserMixin, AbstractJob):
+    """个人工作
+    """
+
+    @classproperty
+    def fkey(self):
+        return 'user'
+
+    class Meta:
+        verbose_name = '个人工作'
         verbose_name_plural = verbose_name

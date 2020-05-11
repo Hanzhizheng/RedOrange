@@ -7,7 +7,18 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.User
-        fields = '__all__'
+        read_only_fields = (
+            'juices',
+        )
+        fields = (
+            'name',
+            'nickname',
+            'phone',
+            'avator',
+            'email',
+            'brithday',
+            'sex',
+        )
 
 
 class JobCardSerializer(serializers.ModelSerializer):
@@ -42,3 +53,18 @@ class JobCardCreateSerializer(serializers.ModelSerializer):
             'position',
             'party_a',
         )
+
+
+class GiveJuiceSerializer(serializers.Serializer):
+    num = serializers.IntegerField(
+        required=True,
+        min_value=10,
+        max_value=100,
+        help_text='橙汁数',
+    )
+
+    def validate_num(self, value):
+        juices = self.context['request'].user.juices
+        if juices < value:
+            raise serializers.ValidationError('橙汁不足哇')
+        return value
